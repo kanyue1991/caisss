@@ -198,7 +198,7 @@
     function randD(name) {
         const config = {
             '小炒': { list: klist, count: 50, },
-            '大菜': { list: mlist, count: 50, },
+            '大菜': { list: mlist, count: 10, },
             '小吃': { list: xiaochi, count: 5, },
             '主食': { list: zhushi, count: 5, },
             '粥': { list: zhou, count: 5, },
@@ -245,7 +245,7 @@
     function setList(list) {
         for (let i = 0; i < 50; i++) {
             const ele = document.getElementById(`s${i + 1}`);
-            ele.innerHTML = i < list.length ? list[i] : '';
+            ele.innerHTML = i < list.length ? list[i] : '&nbsp;';
             ele.style = "padding: 0px 20px;font-size: 40px;white-space: nowrap;background-color: white"
         }
     }
