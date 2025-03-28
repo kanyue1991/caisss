@@ -40,7 +40,7 @@
         type="button" onclick="randD('沙拉')">沙拉</button>
 </div>
 
-<div style="width: 100%;">
+<div style="width: 100%;line-height: 70px;">
     <span id="s1" onclick="copy('s1')" style="padding: 10px 20px;font-size: 40px;white-space: nowrap;"></span>
     <span id="s2" onclick="copy('s2')" style="padding: 10px 20px;font-size: 40px;white-space: nowrap;"></span>
     <span id="s3" onclick="copy('s3')" style="padding: 10px 20px;font-size: 40px;white-space: nowrap;"></span>
@@ -169,13 +169,19 @@
     function rand({ list, count }) {
         const cacheObj = getCacheList(list)
         let start = cacheObj.start;
+        let reset = false;
         if (start + count > list.length) {
-            start = 0;
-            cacheObj.arr = null;
+            reset = true;
+            count = list.length - start
         }
         const { arr, output } = randList({ arr: cacheObj.arr, list, start, count })
+        if (reset) {
+            cacheObj.start = 0;
+            cacheObj.arr = null;
+        } else {
+            cacheObj.start = start + count
+        }
         if (!cacheObj.arr) cacheObj.arr = arr;
-        cacheObj.start = start + count
         return output
     }
 
@@ -233,12 +239,14 @@
     function copy(id) {
         const ele = document.getElementById(id);
         copyText(ele.innerHTML)
+        ele.style = "padding: 0px 20px;font-size: 40px;white-space: nowrap;background-color: yellow"
     }
 
     function setList(list) {
         for (let i = 0; i < 50; i++) {
             const ele = document.getElementById(`s${i + 1}`);
             ele.innerHTML = i < list.length ? list[i] : '';
+            ele.style = "padding: 0px 20px;font-size: 40px;white-space: nowrap;background-color: white"
         }
     }
 
