@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<button onclick="copyText('这是要复制的文本')">点击复制</button>
 <div style="width: 100%;height: 80px;padding: 10px;">
     <button
         style="margin-right: 40px;background-color: #67c23a;color: white;border-radius: 10px;width: 150px;height: 60px;font-size: 30px;"
@@ -43,8 +44,6 @@
     <textarea style="width: 100%;height: 1300px;font-size: 40px;" id="content" name="content">
     </textarea>
 </div>
-
-
 
 <script>
     // 全部 2532  备菜时间  10分钟内：1935  10到30分钟：24  大于30分钟：25
@@ -134,5 +133,29 @@
         }
         const textarea = document.getElementById("content");
         textarea.value = rand(config[name]);
+    }
+
+    function copyText(text) {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text)
+                .then(() => alert('复制成功！'))
+                .catch(() => copyFallback(text));
+        } else {
+            copyFallback(text);
+        }
+    }
+
+    function copyFallback(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            alert('复制成功！');
+        } catch (err) {
+            alert('请手动复制：' + text);
+        }
+        document.body.removeChild(textarea);
     }
 </script>
